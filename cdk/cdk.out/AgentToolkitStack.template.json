@@ -1,0 +1,907 @@
+{
+ "Resources": {
+  "ConnectionsTable8000B8A1": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "connectionId",
+      "AttributeType": "S"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "connectionId",
+      "KeyType": "HASH"
+     }
+    ],
+    "TableName": "AgentToolkit-Connections"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectionsTable/Resource"
+   }
+  },
+  "MessagesTable05B58A27": {
+   "Type": "AWS::DynamoDB::Table",
+   "Properties": {
+    "AttributeDefinitions": [
+     {
+      "AttributeName": "sessionId",
+      "AttributeType": "S"
+     },
+     {
+      "AttributeName": "timestamp",
+      "AttributeType": "N"
+     }
+    ],
+    "BillingMode": "PAY_PER_REQUEST",
+    "KeySchema": [
+     {
+      "AttributeName": "sessionId",
+      "KeyType": "HASH"
+     },
+     {
+      "AttributeName": "timestamp",
+      "KeyType": "RANGE"
+     }
+    ],
+    "TableName": "AgentToolkit-Messages"
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessagesTable/Resource"
+   }
+  },
+  "WebSocketApi": {
+   "Type": "AWS::ApiGatewayV2::Api",
+   "Properties": {
+    "Name": "AgentToolkitWebSocket",
+    "ProtocolType": "WEBSOCKET",
+    "RouteSelectionExpression": "$request.body.action"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/WebSocketApi"
+   }
+  },
+  "ConnectLogGroup67C11F41": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/aws/lambda/AgentToolkit-Connect",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectLogGroup/Resource"
+   }
+  },
+  "DisconnectLogGroup67ADF3A0": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/aws/lambda/AgentToolkit-Disconnect",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectLogGroup/Resource"
+   }
+  },
+  "MessageLogGroup190BD52B": {
+   "Type": "AWS::Logs::LogGroup",
+   "Properties": {
+    "LogGroupName": "/aws/lambda/AgentToolkit-Message",
+    "RetentionInDays": 7
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageLogGroup/Resource"
+   }
+  },
+  "ConnectFnServiceRole552163A9": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectFn/ServiceRole/Resource"
+   }
+  },
+  "ConnectFnServiceRoleDefaultPolicy7DFEA267": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "ConnectFnServiceRoleDefaultPolicy7DFEA267",
+    "Roles": [
+     {
+      "Ref": "ConnectFnServiceRole552163A9"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "ConnectFnEE9A9839": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-978377355615-us-east-1",
+     "S3Key": "b83902f24d21ff2e6e4173638cc344d4ab72f9a182c404688b2951de982a37eb.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "CONNECTIONS_TABLE": {
+       "Ref": "ConnectionsTable8000B8A1"
+      }
+     }
+    },
+    "FunctionName": "AgentToolkit-Connect",
+    "Handler": "index.handler",
+    "LoggingConfig": {
+     "LogGroup": {
+      "Ref": "ConnectLogGroup67C11F41"
+     }
+    },
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "ConnectFnServiceRole552163A9",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "ConnectFnServiceRoleDefaultPolicy7DFEA267",
+    "ConnectFnServiceRole552163A9"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectFn/Resource",
+    "aws:asset:path": "asset.b83902f24d21ff2e6e4173638cc344d4ab72f9a182c404688b2951de982a37eb",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "ConnectFnApiGwConnectC199CC2F": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "ConnectFnEE9A9839",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:978377355615:",
+       {
+        "Ref": "WebSocketApi"
+       },
+       "/*/$connect"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectFn/ApiGwConnect"
+   }
+  },
+  "DisconnectFnServiceRole124341EF": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectFn/ServiceRole/Resource"
+   }
+  },
+  "DisconnectFnServiceRoleDefaultPolicyF6A657D7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "DisconnectFnServiceRoleDefaultPolicyF6A657D7",
+    "Roles": [
+     {
+      "Ref": "DisconnectFnServiceRole124341EF"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "DisconnectFnBC3B9222": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-978377355615-us-east-1",
+     "S3Key": "ccc10e16b9636f571ee3673ab3831cf18244b9cc671a9a4006f3b235bf3c1a96.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "CONNECTIONS_TABLE": {
+       "Ref": "ConnectionsTable8000B8A1"
+      }
+     }
+    },
+    "FunctionName": "AgentToolkit-Disconnect",
+    "Handler": "index.handler",
+    "LoggingConfig": {
+     "LogGroup": {
+      "Ref": "DisconnectLogGroup67ADF3A0"
+     }
+    },
+    "MemorySize": 128,
+    "Role": {
+     "Fn::GetAtt": [
+      "DisconnectFnServiceRole124341EF",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 10
+   },
+   "DependsOn": [
+    "DisconnectFnServiceRoleDefaultPolicyF6A657D7",
+    "DisconnectFnServiceRole124341EF"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectFn/Resource",
+    "aws:asset:path": "asset.ccc10e16b9636f571ee3673ab3831cf18244b9cc671a9a4006f3b235bf3c1a96",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "DisconnectFnApiGwDisconnectB7BA5D80": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "DisconnectFnBC3B9222",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:978377355615:",
+       {
+        "Ref": "WebSocketApi"
+       },
+       "/*/$disconnect"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectFn/ApiGwDisconnect"
+   }
+  },
+  "MessageFnServiceRole25D4C250": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageFn/ServiceRole/Resource"
+   }
+  },
+  "MessageFnServiceRoleDefaultPolicy13431CA6": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "ConnectionsTable8000B8A1",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:BatchGetItem",
+        "dynamodb:Query",
+        "dynamodb:GetItem",
+        "dynamodb:Scan",
+        "dynamodb:ConditionCheckItem",
+        "dynamodb:BatchWriteItem",
+        "dynamodb:PutItem",
+        "dynamodb:UpdateItem",
+        "dynamodb:DeleteItem",
+        "dynamodb:DescribeTable"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "MessagesTable05B58A27",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "dynamodb:GetRecords",
+        "dynamodb:GetShardIterator"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "MessagesTable05B58A27",
+          "Arn"
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "bedrock:InvokeModelWithResponseStream",
+       "Effect": "Allow",
+       "Resource": [
+        "arn:aws:bedrock:us-east-1::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "arn:aws:bedrock:us-east-2::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "arn:aws:bedrock:us-west-2::foundation-model/anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "arn:aws:bedrock:us-east-1:978377355615:inference-profile/us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+       ]
+      },
+      {
+       "Action": "execute-api:ManageConnections",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:execute-api:us-east-1:978377355615:",
+          {
+           "Ref": "WebSocketApi"
+          },
+          "/prod/POST/@connections/*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "MessageFnServiceRoleDefaultPolicy13431CA6",
+    "Roles": [
+     {
+      "Ref": "MessageFnServiceRole25D4C250"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageFn/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "MessageFn419B7C31": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": "cdk-hnb659fds-assets-978377355615-us-east-1",
+     "S3Key": "5980f97ed0b7f3c018be0df1b9034431a94fc900f11e6b7407579d5ab771a41c.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "CONNECTIONS_TABLE": {
+       "Ref": "ConnectionsTable8000B8A1"
+      },
+      "MESSAGES_TABLE": {
+       "Ref": "MessagesTable05B58A27"
+      },
+      "BEDROCK_MODEL_ID": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "AWS_REGION_NAME": "us-east-1"
+     }
+    },
+    "FunctionName": "AgentToolkit-Message",
+    "Handler": "index.handler",
+    "LoggingConfig": {
+     "LogGroup": {
+      "Ref": "MessageLogGroup190BD52B"
+     }
+    },
+    "MemorySize": 512,
+    "Role": {
+     "Fn::GetAtt": [
+      "MessageFnServiceRole25D4C250",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs20.x",
+    "Timeout": 120
+   },
+   "DependsOn": [
+    "MessageFnServiceRoleDefaultPolicy13431CA6",
+    "MessageFnServiceRole25D4C250"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageFn/Resource",
+    "aws:asset:path": "asset.5980f97ed0b7f3c018be0df1b9034431a94fc900f11e6b7407579d5ab771a41c",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "MessageFnApiGwMessage9608CE07": {
+   "Type": "AWS::Lambda::Permission",
+   "Properties": {
+    "Action": "lambda:InvokeFunction",
+    "FunctionName": {
+     "Fn::GetAtt": [
+      "MessageFn419B7C31",
+      "Arn"
+     ]
+    },
+    "Principal": "apigateway.amazonaws.com",
+    "SourceArn": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:execute-api:us-east-1:978377355615:",
+       {
+        "Ref": "WebSocketApi"
+       },
+       "/*/sendMessage"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageFn/ApiGwMessage"
+   }
+  },
+  "ConnectIntegration": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "ConnectFnEE9A9839",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectIntegration"
+   }
+  },
+  "DisconnectIntegration": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "DisconnectFnBC3B9222",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectIntegration"
+   }
+  },
+  "MessageIntegration": {
+   "Type": "AWS::ApiGatewayV2::Integration",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "IntegrationType": "AWS_PROXY",
+    "IntegrationUri": {
+     "Fn::Join": [
+      "",
+      [
+       "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/",
+       {
+        "Fn::GetAtt": [
+         "MessageFn419B7C31",
+         "Arn"
+        ]
+       },
+       "/invocations"
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/MessageIntegration"
+   }
+  },
+  "ConnectRoute": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "AuthorizationType": "NONE",
+    "RouteKey": "$connect",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "ConnectIntegration"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ConnectRoute"
+   }
+  },
+  "DisconnectRoute": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "RouteKey": "$disconnect",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "DisconnectIntegration"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/DisconnectRoute"
+   }
+  },
+  "SendMessageRoute": {
+   "Type": "AWS::ApiGatewayV2::Route",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "RouteKey": "sendMessage",
+    "Target": {
+     "Fn::Join": [
+      "",
+      [
+       "integrations/",
+       {
+        "Ref": "MessageIntegration"
+       }
+      ]
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/SendMessageRoute"
+   }
+  },
+  "Deployment": {
+   "Type": "AWS::ApiGatewayV2::Deployment",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    }
+   },
+   "DependsOn": [
+    "ConnectRoute",
+    "DisconnectRoute",
+    "SendMessageRoute"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/Deployment"
+   }
+  },
+  "ProdStage": {
+   "Type": "AWS::ApiGatewayV2::Stage",
+   "Properties": {
+    "ApiId": {
+     "Ref": "WebSocketApi"
+    },
+    "DeploymentId": {
+     "Ref": "Deployment"
+    },
+    "StageName": "prod"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/ProdStage"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/02OS2vDMBCEf0vu8jZ1aEuPedBSKDQ4vYe1vRGK9TBeKcYI/fcihUBP8w2zs0wN9dsLrFc4c9X1Q6VVC/HksRsEznyO/WLRuL6F+IutJrG/2AJJ4KgkeppxudUQ9xe7HVWOv6wnOaFXzmbbuOBL7UCjdosh67M7eZSUhHaSIX47+Tm5MObgwUloNG2PED+C7R7f/vORJqOYlbNJKDQQG3cfWPTotOqWclcoCd6ckZk8wzaL4A3sQjeQ3yFTEg2xC1NHoqR5n7Iy93+CH4NPwrqe4MpPt3oNz+/wurqyUtUUrFeGoLnrHxqwU/RQAQAA"
+   },
+   "Metadata": {
+    "aws:cdk:path": "AgentToolkitStack/CDKMetadata/Default"
+   }
+  }
+ },
+ "Outputs": {
+  "WebSocketUrl": {
+   "Description": "WebSocket API URL",
+   "Value": {
+    "Fn::Join": [
+     "",
+     [
+      "wss://",
+      {
+       "Ref": "WebSocketApi"
+      },
+      ".execute-api.us-east-1.amazonaws.com/prod"
+     ]
+    ]
+   }
+  },
+  "ApiId": {
+   "Description": "API Gateway WebSocket API ID",
+   "Value": {
+    "Ref": "WebSocketApi"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

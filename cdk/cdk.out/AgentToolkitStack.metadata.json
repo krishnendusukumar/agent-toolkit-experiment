@@ -1,0 +1,473 @@
+{
+  "/AgentToolkitStack": [
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    },
+    {
+      "type": "aws:cdk:templateFile",
+      "data": "AgentToolkitStack.template.json"
+    }
+  ],
+  "/AgentToolkitStack/ConnectionsTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "ConnectionsTable8000B8A1"
+      }
+    }
+  ],
+  "/AgentToolkitStack/MessagesTable": [
+    {
+      "type": "aws:cdk:hasPhysicalName",
+      "data": {
+        "Ref": "MessagesTable05B58A27"
+      }
+    }
+  ],
+  "/AgentToolkitStack/WebSocketApi": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WebSocketApi"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:29:26)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectIntegration": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectIntegration"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:111:32)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectIntegration": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectIntegration"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:117:35)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageIntegration": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageIntegration"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:123:32)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectRoute"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:129:26)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectRoute"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:136:29)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/SendMessageRoute": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "SendMessageRoute"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:142:30)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/Deployment": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "Deployment"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:148:24)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ProdStage": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ProdStage"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:155:5)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/WebSocketUrl": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "WebSocketUrl"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:186:5)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ApiId": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ApiId"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:191:5)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/BootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "BootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AgentToolkitStack/CheckBootstrapVersion": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CheckBootstrapVersion"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectionsTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectionsTable8000B8A1"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Table2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:14:30)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessagesTable/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessagesTable05B58A27"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Table2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:21:27)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectLogGroup67C11F41"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:35:29)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectLogGroup67ADF3A0"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:41:32)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageLogGroup/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageLogGroup190BD52B"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new LogGroup2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:47:29)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectFnEE9A9839"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:53:23)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectFn/ApiGwConnect": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectFnApiGwConnectC199CC2F"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...PropertyInjectable.addPermission in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:161:15)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectFnBC3B9222"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:66:26)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectFn/ApiGwDisconnect": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectFnApiGwDisconnectB7BA5D80"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...PropertyInjectable.addPermission in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:166:18)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageFn/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageFn419B7C31"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:79:23)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageFn/ApiGwMessage": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageFnApiGwMessage9608CE07"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...PropertyInjectable.addPermission in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:171:15)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/CDKMetadata/Default": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "CDKMetadata"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib, node internals...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectFnServiceRole552163A9"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:53:23)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectFnServiceRole124341EF"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:66:26)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageFn/ServiceRole/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageFnServiceRole25D4C250"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...new Function2 in aws-cdk-lib...",
+        "new AgentToolkitStack (/home/ubntu/agent-toolkit-experiment/cdk/lib/stack.ts:79:23)",
+        "<anonymous> (/home/ubntu/agent-toolkit-experiment/cdk/bin/app.ts:7:1)",
+        "...node internals, ts-node, ts-node..."
+      ]
+    }
+  ],
+  "/AgentToolkitStack/ConnectFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "ConnectFnServiceRoleDefaultPolicy7DFEA267"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AgentToolkitStack/DisconnectFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "DisconnectFnServiceRoleDefaultPolicyF6A657D7"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ],
+  "/AgentToolkitStack/MessageFn/ServiceRole/DefaultPolicy/Resource": [
+    {
+      "type": "aws:cdk:logicalId",
+      "data": "MessageFnServiceRoleDefaultPolicy13431CA6"
+    },
+    {
+      "type": "aws:cdk:creationStack",
+      "data": [
+        "...aws-cdk-lib...",
+        "(no user code in 10 frames, use --stack-trace-limit to capture more)"
+      ]
+    }
+  ]
+}
