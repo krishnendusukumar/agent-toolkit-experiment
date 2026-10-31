@@ -1,5 +1,0 @@
-run,toolkit,deployed,memory,streaming,time_minutes,interventions
-A1,no,yes,yes,no,42,3
-A2,no,yes,no,no,38,4
-B1,yes,yes,yes,yes,21,1
-B2,yes,yes,yes,yes,24,1
